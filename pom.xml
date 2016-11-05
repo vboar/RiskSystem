@@ -168,9 +168,9 @@
             </plugin>
             -->
             <plugin>
-            <artifactId>maven-war-plugin</artifactId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <version>3.0</version>
+                    <version>3.0.0</version>
                 </configuration>
             </plugin>
         </plugins>
