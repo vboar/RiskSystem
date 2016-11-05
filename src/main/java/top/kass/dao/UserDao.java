@@ -6,4 +6,10 @@ public interface UserDao {
 
     public User getByUsername(String username);
 
+    public User create(User user);
+
+    public User update(User user);
+
+    public User getById(int id);
+
 }
