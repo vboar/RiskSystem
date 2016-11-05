@@ -150,7 +150,6 @@
 
     <build>
         <finalName>risk-system</finalName>
-        <defaultGoal>compile</defaultGoal>
         <plugins>
             <!--
             <plugin>
