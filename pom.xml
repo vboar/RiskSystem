@@ -150,6 +150,7 @@
 
     <build>
         <finalName>risk-system</finalName>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <!--
             <plugin>
