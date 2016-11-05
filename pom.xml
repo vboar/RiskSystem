@@ -149,6 +149,8 @@
     </dependencies>
 
     <build>
+        <finalName>risk-system</finalName>
+        <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -161,6 +163,12 @@
                     <compilerArguments>
                         <extdirs>libs</extdirs>
                     </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <version>3.0 </version>
                 </configuration>
             </plugin>
         </plugins>
