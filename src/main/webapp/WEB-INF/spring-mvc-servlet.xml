@@ -22,7 +22,6 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="/assets/**" location="/assets/"/>
 
-    <!--
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -30,6 +29,5 @@
             <bean id="loginInterceptor" class="top.kass.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-    -->
 
 </beans>

@@ -152,7 +152,6 @@
         <finalName>risk-system</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -166,7 +165,6 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
