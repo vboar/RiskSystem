@@ -8,24 +8,26 @@ import javax.servlet.http.HttpSession;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-    private static final String[] IGNORE_URI = {"/login", "/register"};
-    private static final String[] UNLOGIN_URI = {"/login", "/register"};
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
 
         String url = request.getRequestURI();
+        String prefix = request.getContextPath();
+
+        String[] IGNORE_URI = {prefix + "/login", prefix + "/register"};
+        String[] UNLOGIN_URI = {prefix + "/login", prefix + "/register"};
+
         HttpSession session = request.getSession();
 
-        if (url.startsWith("/api")) {
+        if (url.startsWith(prefix + "/api")) {
             return true;
         }
 
         if (session.getAttribute("id") != null) {
             for (String s : UNLOGIN_URI) {
                 if (url.equals(s)) {
-                    response.sendRedirect("/");
+                    response.sendRedirect(prefix + "/");
                     return false;
                 }
             }
@@ -38,7 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 }
             }
             if (!flag) {
-                response.sendRedirect("/login");
+                response.sendRedirect(prefix + "/login");
                 return false;
             }
         }

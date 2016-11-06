@@ -2,6 +2,9 @@ node {
   stage('SCM') {
     git 'https://github.com/vboar/RiskSystem.git/'
   }
+  stage('QA') {
+    sh 'sonar-scanner'
+  }
   stage('build') {
     def mvnHome = tool 'Maven3'
     sh "${mvnHome}/bin/mvn -B clean package"
