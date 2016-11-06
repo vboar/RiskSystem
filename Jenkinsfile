@@ -3,6 +3,7 @@ node {
     git 'https://github.com/vboar/RiskSystem.git/'
   }
   stage('QA') {
+    env.PATH = "/opt/sonar-scanner/bin:${env.PATH}"
     sh 'sonar-scanner'
   }
   stage('build') {
