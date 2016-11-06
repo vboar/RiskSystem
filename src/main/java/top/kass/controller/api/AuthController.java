@@ -25,9 +25,12 @@ public class AuthController {
     public Map<String, Object> login(@RequestBody Map reqMap, HttpSession session) {
         Map<String, Object> respMap = userService.login(reqMap);
         Map<String, Object> data = (Map)respMap.get("data");
-        session.setAttribute("id", data.get("id"));
-        session.setAttribute("username", data.get("username"));
-        session.setAttribute("role", data.get("role"));
+        if ((int)respMap.get("code") == 0) {
+            session.setAttribute("id", data.get("id"));
+            session.setAttribute("name", data.get("name"));
+            session.setAttribute("username", data.get("username"));
+            session.setAttribute("role", data.get("role"));
+        }
         return respMap;
     }
 
@@ -36,9 +39,12 @@ public class AuthController {
     public Map<String, Object> register(@RequestBody Map reqMap, HttpSession session) {
         Map<String, Object> respMap = userService.register(reqMap);
         Map<String, Object> data = (Map)respMap.get("data");
-        session.setAttribute("id", data.get("id"));
-        session.setAttribute("username", data.get("username"));
-        session.setAttribute("role", data.get("role"));
+        if ((int)respMap.get("code") == 0) {
+            session.setAttribute("id", data.get("id"));
+            session.setAttribute("username", data.get("username"));
+            session.setAttribute("name", data.get("name"));
+            session.setAttribute("role", data.get("role"));
+        }
         return respMap;
     }
 

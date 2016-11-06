@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> data = new HashMap<>();
         data.put("id", user.getId());
         data.put("username", user.getUsername());
+        data.put("name", user.getName());
         data.put("role", user.getRole());
         map.put("data", data);
         return map;
@@ -97,6 +98,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> data = new HashMap<>();
         data.put("id", user.getId());
         data.put("username", user.getUsername());
+        data.put("name", user.getName());
         data.put("role", user.getRole());
         map.put("data", data);
         return map;
