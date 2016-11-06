@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import top.kass.dao.UserDao;
 import top.kass.model.User;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -50,6 +52,14 @@ public class UserDaoImpl implements UserDao {
         } else {
             return (User)query.list().get(0);
         }
+    }
+
+    @Override
+    public List<User> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from User as user");
+        List<User> userList = query.list();
+        return userList;
     }
 
 }

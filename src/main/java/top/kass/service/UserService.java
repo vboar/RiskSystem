@@ -12,4 +12,7 @@ public interface UserService {
 
     public Map<String, Object> getMyInfo(int id);
 
+    public Map<String, Object> getAllUsers();
+
+
 }

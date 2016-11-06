@@ -31,4 +31,10 @@ public class UserController {
         return userService.password(reqMap, (int)session.getAttribute("id"));
     }
 
+    @RequestMapping(value="/getAllUsers", method=RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
 }

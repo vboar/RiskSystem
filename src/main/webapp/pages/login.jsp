@@ -21,7 +21,7 @@
             <label for="inputPassword" class="sr-only">密码</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="密码">
         </div>
-        <button class="btn btn-primary btn-block" type="button" id="js-submit">登录</button>
+        <button class="btn btn-primary btn-block" type="button" id="js-btn-submit">登录</button>
     </div>
 </div>
 
@@ -43,7 +43,7 @@
 
 <script>
 $(document).ready(function () {
-    $('#js-submit').on('click', function () {
+    $('#js-btn-submit').on('click', function () {
         var data = {
             username: $('#inputUsername').val(),
             password: $('#inputPassword').val()
@@ -55,12 +55,12 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function(ret) {
                 if (ret.code == 0) {
-                    toaster('登录成功' , 'success');
+                    toaster('登录成功', 'success');
                     setTimeout(function () {
                         window.location.href = $('#prefixUrl').val() + '/';
                     }, 1000);
                 } else {
-                    toaster(ret.msg || '系统繁忙' , 'error');
+                    toaster(ret.msg || '系统繁忙', 'error');
                 }
             },
             error: function() {

@@ -29,7 +29,7 @@
             <label for="inputPassword2" class="sr-only">再次输入密码</label>
             <input type="password" id="inputPassword2" class="form-control" placeholder="再次输入密码">
         </div>
-        <button class="btn btn-primary btn-block" type="button" id="js-submit">登录</button>
+        <button class="btn btn-primary btn-block" type="button" id="js-btn-submit">登录</button>
     </div>
 </div>
 
@@ -51,7 +51,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#js-submit').on('click', function () {
+        $('#js-btn-submit').on('click', function () {
             var data = {
                 username: $('#inputUsername').val(),
                 name: $('#inputName').val(),
@@ -65,12 +65,12 @@
                 contentType: 'application/json',
                 success: function(ret) {
                     if (ret.code == 0) {
-                        toaster('注册成功' , 'success');
+                        toaster('注册成功', 'success');
                         setTimeout(function () {
                             window.location.href = $('#prefixUrl').val() + '/';
                         }, 1000);
                     } else {
-                        toaster(ret.msg || '系统繁忙' , 'error');
+                        toaster(ret.msg || '系统繁忙', 'error');
                     }
                 },
                 error: function() {

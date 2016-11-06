@@ -150,8 +150,18 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> data = new HashMap<>();
         data.put("id", user.getId());
         data.put("username", user.getUsername());
+        data.put("name", user.getName());
         data.put("role", user.getRole());
+        map.put("code", 0);
         map.put("data", data);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getAllUsers() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("data", userDao.getAll());
         return map;
     }
 
