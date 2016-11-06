@@ -12,14 +12,22 @@
 
 <div class="container form-container">
     <div class="form-signin">
-        <h3 class="form-signin-heading">登录</h3>
+        <h3 class="form-signin-heading">注册</h3>
         <div class="form-group">
             <label for="inputUsername" class="sr-only">用户名</label>
             <input type="email" id="inputUsername" class="form-control" placeholder="用户名" autofocus>
         </div>
         <div class="form-group">
+            <label for="inputName" class="sr-only">姓名</label>
+            <input type="email" id="inputName" class="form-control" placeholder="姓名">
+        </div>
+        <div class="form-group">
             <label for="inputPassword" class="sr-only">密码</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="密码">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword2" class="sr-only">再次输入密码</label>
+            <input type="password" id="inputPassword2" class="form-control" placeholder="再次输入密码">
         </div>
         <button class="btn btn-primary btn-block" type="button" id="js-submit">登录</button>
     </div>
@@ -42,33 +50,35 @@
 </style>
 
 <script>
-$(document).ready(function () {
-    $('#js-submit').on('click', function () {
-        var data = {
-            username: $('#inputUsername').val(),
-            password: $('#inputPassword').val()
-        };
-        $.ajax({
-            type: 'POST',
-            url: $('#prefixUrl').val() + '/api/auth/login',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(ret) {
-                if (ret.code == 0) {
-                    toaster('登录成功' , 'success');
-                    setTimeout(function () {
-                        window.location.href = $('#prefixUrl').val() + '/';
-                    }, 1000);
-                } else {
-                    toaster(ret.msg || '系统繁忙' , 'error');
+    $(document).ready(function () {
+        $('#js-submit').on('click', function () {
+            var data = {
+                username: $('#inputUsername').val(),
+                name: $('#inputName').val(),
+                password: $('#inputPassword').val(),
+                password2: $('#inputPassword2').val(),
+            };
+            $.ajax({
+                type: 'POST',
+                url: $('#prefixUrl').val() + '/api/auth/register',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(ret) {
+                    if (ret.code == 0) {
+                        toaster('注册成功' , 'success');
+                        setTimeout(function () {
+                            window.location.href = $('#prefixUrl').val() + '/';
+                        }, 1000);
+                    } else {
+                        toaster(ret.msg || '系统繁忙' , 'error');
+                    }
+                },
+                error: function() {
+                    toaster('系统繁忙', "error");
                 }
-            },
-            error: function() {
-                toaster('系统繁忙', "error");
-            }
+            });
         });
     });
-});
 </script>
 
 </body>
