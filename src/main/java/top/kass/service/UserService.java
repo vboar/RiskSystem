@@ -8,4 +8,8 @@ public interface UserService {
 
     public Map<String, Object> register(Map reqMap);
 
+    public Map<String, Object> password(Map reqMap, int id);
+
+    public Map<String, Object> getMyInfo(int id);
+
 }

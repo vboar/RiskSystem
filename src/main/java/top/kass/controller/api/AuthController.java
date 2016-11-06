@@ -22,15 +22,23 @@ public class AuthController {
 
     @RequestMapping(value="/login", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> login(@RequestBody Map reqMap) {
-        Map<String, Object> map = userService.login(reqMap);
-        return map;
+    public Map<String, Object> login(@RequestBody Map reqMap, HttpSession session) {
+        Map<String, Object> respMap = userService.login(reqMap);
+        Map<String, Object> data = (Map)respMap.get("data");
+        session.setAttribute("id", data.get("id"));
+        session.setAttribute("username", data.get("username"));
+        session.setAttribute("role", data.get("role"));
+        return respMap;
     }
 
     @RequestMapping(value="/register", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> register(@RequestBody Map reqMap) {
-        Map<String, Object> respMap = new HashMap<>();
+    public Map<String, Object> register(@RequestBody Map reqMap, HttpSession session) {
+        Map<String, Object> respMap = userService.register(reqMap);
+        Map<String, Object> data = (Map)respMap.get("data");
+        session.setAttribute("id", data.get("id"));
+        session.setAttribute("username", data.get("username"));
+        session.setAttribute("role", data.get("role"));
         return respMap;
     }
 
@@ -39,7 +47,7 @@ public class AuthController {
     public Map<String, Object> logout(HttpSession session) {
         Enumeration<String> em = session.getAttributeNames();
         while (em.hasMoreElements()) {
-            session.removeAttribute(em.nextElement().toString());
+            session.removeAttribute(em.nextElement());
         }
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
