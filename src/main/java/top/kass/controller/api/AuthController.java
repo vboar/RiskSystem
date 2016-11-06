@@ -49,9 +49,18 @@ public class AuthController {
         while (em.hasMoreElements()) {
             session.removeAttribute(em.nextElement());
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("code", 0);
-        return map;
+        Map<String, Object> respMap = new HashMap<>();
+        respMap.put("code", 0);
+        return respMap;
+    }
+
+    @RequestMapping(value="/unlogin", method=RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> unlogin() {
+        Map<String, Object> respMap = new HashMap<>();
+        respMap.put("code", 401);
+        respMap.put("msg", "你还没有登录");
+        return respMap;
     }
 
 }

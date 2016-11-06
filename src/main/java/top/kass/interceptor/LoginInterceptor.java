@@ -21,6 +21,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
 
         if (url.startsWith(prefix + "/api")) {
+            if (url.equals(prefix + "/api/auth/login") ||
+                    url.equals(prefix + "/api/auth/register") ||
+                    url.equals(prefix + "/api/auth/unlogin")) {
+                return true;
+            }
+            if (session.getAttribute("id") == null) {
+                response.sendRedirect(prefix + "/api/auth/unlogin");
+                return false;
+            }
             return true;
         }
 
