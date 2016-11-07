@@ -20,6 +20,33 @@
         }, 3000);
     };
 
+    win.tmplCache = {};
+
+    win.tmpl = function(strTmpl, args) {
+        var argNames = [];
+        var argValues = [];
+        for (var a in args) {
+            argNames.push(a);
+            argValues.push(args[a]);
+        }
+        var funcs = win.tmplCache[strTmpl] || function() {
+                var f = [ 'var __out__ = [];' ];
+                strTmpl.replace(/<%=([\d\D]*?)%>|<%([\d\D]*?)%>|([\d\D]+?)(?=<\%|$)/g, function($0, $1, $2, $3) {
+                    if ($3) {
+                        f.push('__out__.push(unescape("', escape($3), '"));');
+                    } else if ($1) {
+                        f.push('__out__.push(', $1, ');');
+                    } else if ($2) {
+                        f.push($2, ';');
+                    }
+                });
+                f.push('return __out__.join("")');
+                return new Function(argNames.join(', '), f.join(''));
+            }();
+        win.tmplCache[strTmpl] = funcs;
+        return funcs.apply(args||{}, argValues);
+    };
+
 })(window, document);
 
 $(document).ready(function () {

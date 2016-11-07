@@ -68,7 +68,7 @@
                         toaster('注册成功', 'success');
                         setTimeout(function () {
                             window.location.href = $('#prefixUrl').val() + '/';
-                        }, 1000);
+                        }, 500);
                     } else {
                         toaster(ret.msg || '系统繁忙', 'error');
                     }

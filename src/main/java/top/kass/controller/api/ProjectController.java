@@ -1,10 +1,11 @@
 package top.kass.controller.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import top.kass.service.ProjectService;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +13,14 @@ import java.util.Map;
 @RequestMapping("/api/project")
 public class ProjectController {
 
+    @Autowired
+    private ProjectService projectService;
+
     // 我的项目，分为我创建的和我参与的
     @RequestMapping(value="/getMyProjects", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getMyProjects() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> getMyProjects(HttpSession session) {
+        return projectService.getMyProjects((int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/getById", method=RequestMethod.GET)
@@ -29,9 +32,8 @@ public class ProjectController {
 
     @RequestMapping(value="/add", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> add() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> add(@RequestBody Map reqMap, HttpSession session) {
+        return projectService.add(reqMap, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/modify", method=RequestMethod.POST)

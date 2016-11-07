@@ -18,30 +18,10 @@
             <button class="btn btn-primary" id="js-btn-add">创建项目</button>
 
             <h4 class="title">我创建的</h4>
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="thumbnail">我的项目</div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="thumbnail">我的项目</div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="thumbnail">我的项目</div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="thumbnail">我的项目</div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="thumbnail">我的项目</div>
-                    </div>
-                </div>
-            </div>
+            <div class="content" id="js-create">无</div>
 
             <h4 class="title">我参与的</h4>
-            <div class="content">
-                无
-            </div>
+            <div class="content" id="js-in">无</div>
 
         </div>
     </div>
@@ -56,6 +36,7 @@
 <script src="${pageContext.request.contextPath}/assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/select2/js/i18n/zh-CN.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/index.js"></script>
 
 <style>
     .project-container {
@@ -81,62 +62,6 @@
         transition: 0.5s;
     }
 </style>
-
-<script>
-    $(document).ready(function () {
-
-        var cache = {
-            userList: []
-        };
-
-        $.ajax({
-            type: 'GET',
-            url: $('#prefixUrl').val() + '/api/user/getAllUsers',
-            success: function(ret) {
-                if (ret.code == 0) {
-                    if (ret.data) {
-                        for (var i = 0, one; one = ret.data[i]; i++) {
-                            cache.userList.push({
-                                id: one.id,
-                                text: one.name + '（' + one.username + '）'
-                            });
-                        }
-                        $('#js-select-user').select2({
-                            language:"zh-CN",
-                            data: cache.userList
-                        });
-                    }
-                } else {
-                    toaster(ret.msg || '系统繁忙', 'error');
-                }
-            },
-            error: function() {
-                toaster('系统繁忙', "error");
-            }
-        });
-
-        $('#js-modal-project').modal({
-            show: false,
-            backdrop: 'static'
-        });
-
-        $('#js-btn-add').on('click', function () {
-            $('#js-input-name').val('');
-            $('#js-textarea-description').val('');
-            $('#js-select-user').val(null).trigger("change");
-            $('#js-modal-project').modal('show');
-        });
-
-        $('#js-btn-add-submit').on('click', function () {
-            var data = {
-                name: $('#js-input-name').val(),
-                description: $('#js-textarea-description').val(),
-                users: $('#js-select-user').val() || []
-            };
-            console.log(data);
-        });
-    });
-</script>
 
 </body>
 </html>

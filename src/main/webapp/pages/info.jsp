@@ -94,7 +94,7 @@ $(document).ready(function () {
                 if (ret.code == 401) {
                     setTimeout(function () {
                         window.location.href = $('#prefixUrl').val() + '/login';
-                    }, 1000);
+                    }, 500);
                 }
             }
         },
@@ -119,7 +119,7 @@ $(document).ready(function () {
                     toaster('修改成功', 'success');
                     setTimeout(function () {
                         window.location.reload();
-                    }, 1000);
+                    }, 500);
                 } else {
                     toaster(ret.msg || '系统繁忙', 'error');
                 }
