@@ -1,8 +1,10 @@
 package top.kass.controller.front;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
@@ -27,9 +29,11 @@ public class HomeController {
         return "info";
     }
 
-    @RequestMapping(value="/project", method= RequestMethod.GET)
-    public String project() {
-        return "project";
+    @RequestMapping(value="/project/{id}", method= RequestMethod.GET)
+    public ModelAndView project(@PathVariable int id) {
+        ModelAndView modelAndView = new ModelAndView("project");
+        modelAndView.addObject("id", id);
+        return modelAndView;
     }
 
     @RequestMapping(value="/risk", method= RequestMethod.GET)

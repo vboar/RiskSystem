@@ -25,9 +25,8 @@ public class ProjectController {
 
     @RequestMapping(value="/getById", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getById() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> getById(@RequestParam int id, HttpSession session) {
+        return projectService.getById(id, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/add", method=RequestMethod.POST)
@@ -38,16 +37,14 @@ public class ProjectController {
 
     @RequestMapping(value="/modify", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> modify() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> modify(@RequestBody Map reqMap, HttpSession session) {
+        return projectService.modify(reqMap, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/delete", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> delete() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> delete(@RequestParam int id, HttpSession session) {
+        return projectService.delete(id, (int)session.getAttribute("id"));
     }
 
     // 获取本项目中的所有成员（创建者+参与者）

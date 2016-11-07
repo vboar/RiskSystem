@@ -17,7 +17,7 @@ public interface ProjectDao {
 
     public void updateUsers(int id, List<String> uids, int uid);
 
-    public List<User> getUsers(int id);
+    public List getUsers(int id);
 
     public List<Project> getCreatedProjectsByUid(int uid);
 

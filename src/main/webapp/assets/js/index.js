@@ -116,4 +116,8 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $('body').delegate('.thumbnail', 'click', function () {
+        window.location.href = $('#prefixUrl').val() + '/project/' + $(this).attr('data-id');
+    });
 });

@@ -1,13 +1,10 @@
 package top.kass.dao.impl;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.internal.util.type.PrimitiveWrapperHelper;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Repository;
 import top.kass.dao.ProjectDao;
 import top.kass.model.Project;
@@ -81,8 +78,15 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public List<User> getUsers(int id) {
-        return null;
+    public List getUsers(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createSQLQuery("SELECT * FROM project_user pu LEFT JOIN user u " +
+                "ON pu.uid=u.id WHERE pu.pid=?");
+        query.setInteger(0, id);
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List list = query.list();
+        if (list == null) list = new ArrayList<>();
+        return list;
     }
 
     @Override
