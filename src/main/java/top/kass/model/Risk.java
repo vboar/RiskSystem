@@ -10,8 +10,8 @@ public class Risk {
     private int id;
     private int pid;
     private String content;
-    private int possibility;
-    private int impact;
+    private byte possibility;
+    private byte impact;
     private String trigger;
     private int committer;
     private Timestamp createTime;
@@ -50,26 +50,26 @@ public class Risk {
 
     @Basic
     @Column(name = "possibility")
-    public int getPossibility() {
+    public byte getPossibility() {
         return possibility;
     }
 
-    public void setPossibility(int possibility) {
+    public void setPossibility(byte possibility) {
         this.possibility = possibility;
     }
 
     @Basic
     @Column(name = "impact")
-    public int getImpact() {
+    public byte getImpact() {
         return impact;
     }
 
-    public void setImpact(int impact) {
+    public void setImpact(byte impact) {
         this.impact = impact;
     }
 
     @Basic
-    @Column(name = "trigger")
+    @Column(name = "[trigger]")
     public String getTrigger() {
         return trigger;
     }

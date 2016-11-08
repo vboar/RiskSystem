@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService {
             return map;
         }
 
-        if (password.length() < 6) {
+        if (password.length() < 5) {
             map.put("code", 101);
-            map.put("msg", "密码长度至少是6位");
+            map.put("msg", "密码长度至少是5位");
             return map;
         }
 
@@ -125,9 +125,9 @@ public class UserServiceImpl implements UserService {
             return map;
         }
 
-        if (password.length() < 6) {
+        if (password.length() < 5) {
             map.put("code", 102);
-            map.put("msg", "密码长度至少是6位");
+            map.put("msg", "密码长度至少是5位");
             return map;
         }
 

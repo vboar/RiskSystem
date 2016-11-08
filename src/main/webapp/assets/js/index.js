@@ -38,7 +38,7 @@ $(document).ready(function () {
     $('#js-btn-add').on('click', function () {
         $('#js-input-name').val('');
         $('#js-textarea-description').val('');
-        $('#js-select-user').val(null).trigger("change");
+        $('#js-select-user').val(null).trigger('change');
         $('#js-modal-project').modal('show');
     });
 

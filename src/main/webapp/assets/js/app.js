@@ -47,6 +47,96 @@
         return funcs.apply(args||{}, argValues);
     };
 
+    win.showConfirm = function(text, title, handler, cancelHandler) {
+
+        var dgEl = $('.g_confirm'),
+            html = '';
+
+        if (dgEl.length) {
+            return;
+        }
+
+        html = '<div class="g_confirm modal fade" style="z-index:9999;display:block">' +
+            '<div class="modal-dialog modal-sm">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<button type="button" class="close" data-action="cancel"><span data-action="cancel">×</span></button>' +
+            '<h4 class="modal-title">' + (title || '<span class="fa fa-info" aria-hidden="true"></span>') + '</h4>' +
+            '</div>' +
+            '<div class="modal-body">' +
+            '<div class="row">' +
+            '<div class="col-md-12">' + text + '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="modal-footer">' +
+            '<button type="button" class="btn btn-default" data-action="cancel">取消</button>' +
+            '<button type="button" class="btn btn-primary" data-action="confirm">确定</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        dgEl = $(html);
+        dgEl.appendTo(doc.body);
+        dgEl.modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+
+        dgEl.on('click', function(e) {
+            var target = $(e.target),
+                action = target.attr('data-action');
+            if (action == 'cancel') {
+                dgEl.modal('hide');
+                if (typeof cancelHandler == 'function') {
+                    cancelHandler();
+                }
+            } else if (action == 'confirm') {
+                dgEl.modal('hide');
+                if (typeof handler == 'function') {
+                    handler();
+                }
+            }
+        });
+
+        dgEl.on('hidden.bs.modal', function() {
+            dgEl.remove();
+        });
+    };
+
+    win.formatDateTime = function(d) {
+        function addZero(num) {
+            return num < 10 ? '0' + num : num;
+        }
+        var _d = new Date(d*1000);
+        return _d.getFullYear() + '-' + addZero(_d.getMonth() + 1) + '-' + addZero(_d.getDate()) + ' ' + addZero(_d.getHours()) + ':' + addZero(_d.getMinutes()) + ':' + addZero(_d.getSeconds());
+    };
+
+    win.dataTableChinese = {
+        "sProcessing":   "处理中...",
+            "sLengthMenu":   "显示 _MENU_ 项结果",
+            "sZeroRecords":  "没有匹配结果",
+            "sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+            "sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix":  "",
+            "sSearch":       "搜索:",
+            "sUrl":          "",
+            "sEmptyTable":     "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands":  ",",
+            "oPaginate": {
+            "sFirst":    "首页",
+                "sPrevious": "上页",
+                "sNext":     "下页",
+                "sLast":     "末页"
+        },
+        "oAria": {
+            "sSortAscending":  ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+        }
+    }
+
 })(window, document);
 
 $(document).ready(function () {

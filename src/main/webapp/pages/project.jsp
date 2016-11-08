@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/plugins/datatables/css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/app.css">
 </head>
 <body>
@@ -38,7 +39,7 @@
                         <p class="title">创建时间：</p>
                         <p class="content" data-item="createTime">-</p>
                     </div>
-                    <div class="pull-right">
+                    <div class="pull-right" id="js-btn-creator" hidden>
                         <button class="btn btn-primary btn-sm" id="js-btn-edit">编辑</button>
                         <button class="btn btn-danger btn-sm" id="js-btn-delete">删除</button>
                     </div>
@@ -50,21 +51,28 @@
                 <div class="panel-heading">风险一览</div>
                 <div class="panel-body project-panel-body">
                     <button class="btn btn-primary btn-sm" id="js-btn-add">创建条目</button>
-                    <table class="table table-bordered" style="margin-top: 15px;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="form-control" id="js-select-risk-flag" style="margin-top: 15px; margin-bottom: 15px;">
+                                <option value="0">所有</option>
+                                <option value="1">我提交的</option>
+                                <option value="2">我跟踪的</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-bordered " id="js-table">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <th>ID</th>
+                            <th>风险内容</th>
+                            <th>可能性</th>
+                            <th>影响程度</th>
+                            <th>提交者</th>
+                            <th>创建时间</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th><td>Mark</td> <td>Otto</td> <td>@mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>@twitter</td> </tr>
-                        </tbody>
+                        <tbody id="js-table-body"></tbody>
                     </table>
-                    <button class="btn btn-primary btn-sm pull-right" id="js-btn-more">加载更多</button>
                 </div>
             </div>
         </div>
@@ -73,11 +81,14 @@
 
 <%@include file="common/toaster.jsp"%>
 <%@include file="common/project_modal.jsp"%>
+<%@include file="common/risk_modal.jsp"%>
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/select2/js/i18n/zh-CN.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/datatables/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/datatables/js/dataTables.bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/project.js"></script>
 
@@ -93,6 +104,17 @@
     }
     .intro-panel .item .content {
         font-size: 14px;
+    }
+    table {
+        font-size: 12px;
+    }
+    
+    table tbody td {
+        max-width: 200px;
+        cursor: pointer;
+        word-break: keep-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
 

@@ -6,4 +6,8 @@ public interface AuthDao {
 
     public boolean isProjectUser(int pid, int uid);
 
+    public boolean isRiskCommitter(int rid, int uid);
+
+    public boolean isRiskFollower(int rid, int uid);
+
 }

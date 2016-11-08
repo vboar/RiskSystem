@@ -36,9 +36,12 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/risk", method= RequestMethod.GET)
-    public String risk() {
-        return "risk";
+    @RequestMapping(value="/project/{pid}/risk/{rid}", method= RequestMethod.GET)
+    public ModelAndView risk(@PathVariable int pid, @PathVariable int rid) {
+        ModelAndView modelAndView = new ModelAndView("risk");
+        modelAndView.addObject("pid", pid);
+        modelAndView.addObject("rid", rid);
+        return modelAndView;
     }
 
 }

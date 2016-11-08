@@ -28,7 +28,7 @@ public class ProjectServiceImpl implements ProjectService {
     private UserDao userDao;
 
     @Override
-    public Map<String, Object> add(Map reqMap, int id) {
+    public Map<String, Object> add(Map reqMap, int uid) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -45,10 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = new Project();
         project.setName(name);
         project.setDescription(description);
-        project.setCreator(id);
+        project.setCreator(uid);
         project.setCreateTime(new Timestamp(System.currentTimeMillis()));
         project = projectDao.create(project);
-        projectDao.updateUsers(project.getId(), uids, id);
+        projectDao.updateUsers(project.getId(), uids, uid);
 
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
@@ -62,16 +62,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> getMyProjects(int id) {
+    public Map<String, Object> getMyProjects(int uid) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
-        data.put("create", projectDao.getCreatedProjectsByUid(id));
+        data.put("create", projectDao.getCreatedProjectsByUid(uid));
 
-        List<Map> ins = projectDao.getProjectsByUid(id);
+        List<Map> ins = projectDao.getProjectsByUid(uid);
         List<Map> newIns = new ArrayList<>();
         for (Map m: ins) {
-            if ((int)m.get("creator") != id) {
+            if ((int)m.get("creator") != uid) {
                 newIns.add(m);
             }
         }
@@ -96,10 +96,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> modify(Map reqMap, int id) {
+    public Map<String, Object> modify(Map reqMap, int uid) {
         Map<String, Object> map = new HashMap<>();
 
         int pid = Integer.parseInt((String)reqMap.get("id"));
+
+        if (!authDao.isProjectCreator(pid, uid)) {
+            map.put("code", 401);
+            map.put("msg", "你没有权限");
+            return map;
+        }
+
         String name = (String)reqMap.get("name");
         String description = (String)reqMap.get("description");
         List<String> uids = (List<String>)reqMap.get("users");
@@ -114,7 +121,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setName(name);
         project.setDescription(description);
         project = projectDao.update(project);
-        projectDao.updateUsers(project.getId(), uids, id);
+        projectDao.updateUsers(project.getId(), uids, uid);
 
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
@@ -154,6 +161,28 @@ public class ProjectServiceImpl implements ProjectService {
             data.put("isCreator", 0);
         }
         map.put("data", data);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getUsersByPid(int pid, int uid) {
+        Map<String, Object> map = new HashMap<>();
+
+        if (!authDao.isProjectUser(pid, uid)) {
+            map.put("code", 401);
+            map.put("msg", "你没有权限");
+            return map;
+        }
+
+        map.put("code", 0);
+        List<Map> users = projectDao.getUsers(pid);
+        for (Map m: users) {
+            m.remove("pid");
+            m.remove("uid");
+            m.remove("password");
+            m.remove("role");
+        }
+        map.put("data", users);
         return map;
     }
 

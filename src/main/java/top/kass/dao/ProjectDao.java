@@ -1,7 +1,6 @@
 package top.kass.dao;
 
 import top.kass.model.Project;
-import top.kass.model.User;
 
 import java.util.List;
 

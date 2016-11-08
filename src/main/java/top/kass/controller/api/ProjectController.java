@@ -50,9 +50,8 @@ public class ProjectController {
     // 获取本项目中的所有成员（创建者+参与者）
     @RequestMapping(value="/getUsersByPid", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getUsersByPid() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> getUsersByPid(@RequestParam int id, HttpSession session) {
+        return projectService.getUsersByPid(id, (int)session.getAttribute("id"));
     }
 
 }

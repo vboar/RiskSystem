@@ -1,10 +1,11 @@
 package top.kass.controller.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import top.kass.service.RiskService;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,40 +13,39 @@ import java.util.Map;
 @RequestMapping("/api/risk")
 public class RiskController {
 
-    // 参数：key index num flag（所有、我创建的、我参与的）
+    @Autowired
+    private RiskService riskService;
+
+    // 参数：flag（所有、我创建的、我跟踪的）
     @RequestMapping(value="/getRisksByPid", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getRisksByPid() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> getRisksByPid(@RequestParam int id, @RequestParam int flag,
+         HttpSession session) {
+        return riskService.getRisksByPid(id, flag, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/getById", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getById() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> getById(@RequestParam int id, HttpSession session) {
+        return riskService.getById(id, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/add", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> add() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> add(@RequestBody Map reqMap, HttpSession session) {
+        return riskService.add(reqMap, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/modify", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> modify() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> modify(@RequestBody Map reqMap, HttpSession session) {
+        return riskService.modify(reqMap, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/delete", method=RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> delete() {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+    public Map<String, Object> delete(@RequestParam int id, HttpSession session) {
+        return riskService.delete(id, (int)session.getAttribute("id"));
     }
 
 }
