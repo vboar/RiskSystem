@@ -108,7 +108,8 @@ public class RiskServiceImpl implements RiskService {
 
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
-        data.put("content", risk.getId());
+        data.put("id", risk.getId());
+        data.put("content", risk.getContent());
         data.put("possibility", risk.getPossibility());
         data.put("impact", risk.getImpact());
         data.put("trigger", risk.getTrigger());

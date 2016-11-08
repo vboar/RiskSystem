@@ -9,6 +9,7 @@ public class RiskState {
 
     private int id;
     private int rid;
+    private int creator;
     private String name;
     private String content;
     private Timestamp createTime;
@@ -75,4 +76,13 @@ public class RiskState {
         this.updateTime = updateTime;
     }
 
+    @Basic
+    @Column(name = "creator")
+    public int getCreator() {
+        return creator;
+    }
+
+    public void setCreator(int creator) {
+        this.creator = creator;
+    }
 }

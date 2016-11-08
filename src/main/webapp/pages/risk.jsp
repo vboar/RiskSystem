@@ -72,6 +72,7 @@
 
 <%@include file="common/toaster.jsp"%>
 <%@include file="common/risk_modal.jsp"%>
+<%@include file="common/risk_state_modal.jsp"%>
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>

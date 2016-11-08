@@ -25,6 +25,11 @@ $(document).ready(function () {
         backdrop: 'static'
     });
 
+    $('#js-modal-risk-state').modal({
+        show: false,
+        backdrop: 'static'
+    });
+
     $.ajax({
         type: 'GET',
         url: $('#prefixUrl').val() + '/api/project/getById?id=' + $('#js-pid').val(),
@@ -50,7 +55,6 @@ $(document).ready(function () {
             success: function(ret) {
                 if (ret.code == 0) {
                     if (ret.data) {
-                        console.log(ret.data);
                         cache.risk = ret.data;
                         $('#js-panel-intro p[data-item]').each(function () {
                             var item = $(this).attr('data-item');
@@ -81,6 +85,7 @@ $(document).ready(function () {
                             $('#js-btn-committer').show();
                             $('#js-btn-add').show();
                             if (ret.data.isCommitter == 0) {
+                                $('#js-select-follower').prop('disabled', true);
                                 $('#js-btn-delete').hide();
                             }
                         }
@@ -152,7 +157,9 @@ $(document).ready(function () {
                 if (ret.code == 0) {
                     toaster('编辑成功', 'success');
                     $('#js-modal-risk').modal('hide');
-                    loadRisk();
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
                 } else {
                     toaster(ret.msg || '系统繁忙', 'error');
                 }
@@ -188,6 +195,58 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#js-btn-add').on('click', function () {
+        $('#js-modal-risk-state [name="name"]').val('');
+        $('#js-modal-risk-state [name="content"]').val('');
+        $('#js-modal-risk-state').modal('show');
+    });
+
+    $('#js-btn-add-state-submit').on('click', function () {
+        var data = {
+            id: $('#js-rid').val(),
+            name: $('#js-modal-risk-state [name="name"]').val(),
+            content: $('#js-modal-risk-state [name="content"]').val()
+        };
+        $.ajax({
+            type: 'POST',
+            url: $('#prefixUrl').val() + '/api/riskState/add',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(ret) {
+                if (ret.code == 0) {
+                    toaster('创建成功', 'success');
+                    $('#js-modal-risk-state').modal('hide');
+                    loadRiskState();
+                } else {
+                    toaster(ret.msg || '系统繁忙', 'error');
+                }
+            },
+            error: function() {
+                toaster('系统繁忙', "error");
+            }
+        });
+    });
+
+    loadRiskState();
+    function loadRiskState() {
+        $.ajax({
+            type: 'GET',
+            url: $('#prefixUrl').val() + '/api/riskState/getRiskStatesByRid?id=' + $('#js-rid').val(),
+            success: function(ret) {
+                if (ret.code == 0) {
+                    if (ret.data) {
+                        // TODO
+                    }
+                } else {
+                    toaster(ret.msg || '系统繁忙', 'error');
+                }
+            },
+            error: function() {
+                toaster('系统繁忙', "error");
+            }
+        });
+    }
 
 
 });

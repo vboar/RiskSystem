@@ -181,7 +181,9 @@ $(document).ready(function () {
                 if (ret.code == 0) {
                     toaster('编辑成功', 'success');
                     $('#js-modal-project').modal('hide');
-                    loadProject();
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
                 } else {
                     toaster(ret.msg || '系统繁忙', 'error');
                 }

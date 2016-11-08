@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import top.kass.dao.RiskStateDao;
 import top.kass.model.RiskState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -55,8 +56,15 @@ public class RiskStateDaoImpl implements RiskStateDao {
     @Override
     public List getByRid(int rid) {
         Session session = sessionFactory.getCurrentSession();
-        // TODO
-        return null;
+        Query query = session.createSQLQuery("SELECT rs.id, rs.name," +
+                "rs.content, rs.creator, rs.createTime, rs.updateTime," +
+                "u.name as creatorName, u.username FROM risk_state rs LEFT JOIN user u " +
+                "ON rs.creator=u.id WHERE rs.rid=? ORDER BY rs.createTime DESC");
+        query.setInteger(0, rid);
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List list = query.list();
+        if (list == null) list = new ArrayList<>();
+        return list;
     }
 
 }
