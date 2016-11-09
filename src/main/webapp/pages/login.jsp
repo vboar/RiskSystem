@@ -22,6 +22,7 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="密码">
         </div>
         <button class="btn btn-primary btn-block" type="button" id="js-btn-submit">登录</button>
+        <p style="margin-top: 10px;">测试帐号用户名和密码均为check</p>
     </div>
 </div>
 
