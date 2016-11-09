@@ -63,7 +63,9 @@ public class RiskStateDaoImpl implements RiskStateDao {
         query.setInteger(0, rid);
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List list = query.list();
-        if (list == null) list = new ArrayList<>();
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         return list;
     }
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import top.kass.dao.ProjectDao;
 import top.kass.model.Project;
-import top.kass.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,9 @@ public class ProjectDaoImpl implements ProjectDao {
             query.setInteger(0, id);
             query.setInteger(1, tempId);
             query.executeUpdate();
-            if (tempId == uid) flag = true;
+            if (tempId == uid) {
+                flag = true;
+            }
         }
         if (!flag) {
             query = session.createSQLQuery("INSERT INTO project_user (pid, uid) VALUES (?, ?)");
@@ -85,7 +86,9 @@ public class ProjectDaoImpl implements ProjectDao {
         query.setInteger(0, id);
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List list = query.list();
-        if (list == null) list = new ArrayList<>();
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         return list;
     }
 
@@ -95,7 +98,7 @@ public class ProjectDaoImpl implements ProjectDao {
         Query query = session.createQuery("from Project as project where creator=:uid");
         query.setInteger("uid", uid);
         if (query.list() == null || query.list().size() == 0) {
-            return new ArrayList<Project>();
+            return new ArrayList<>();
         } else {
             return (List<Project>)query.list();
         }
@@ -109,7 +112,9 @@ public class ProjectDaoImpl implements ProjectDao {
         query.setInteger(0, uid);
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List list = query.list();
-        if (list == null) list = new ArrayList<>();
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         return list;
     }
 

@@ -29,7 +29,7 @@
             <label for="inputPassword2" class="sr-only">再次输入密码</label>
             <input type="password" id="inputPassword2" class="form-control" placeholder="再次输入密码">
         </div>
-        <button class="btn btn-primary btn-block" type="button" id="js-btn-submit">登录</button>
+        <button class="btn btn-primary btn-block" type="button" id="js-btn-submit">注册</button>
     </div>
 </div>
 

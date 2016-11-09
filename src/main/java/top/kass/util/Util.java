@@ -5,6 +5,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class Util {
 
+    private Util() {
+
+    }
+
     public static String md5(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -25,7 +29,6 @@ public class Util {
             // 16位的加密
             //return buf.toString().substring(8, 24);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
             return null;
         }
     }

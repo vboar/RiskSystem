@@ -75,7 +75,9 @@ public class RiskDaoImpl implements RiskDao {
         query.setInteger(0, id);
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List list = query.list();
-        if (list == null) list = new ArrayList<>();
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         return list;
     }
 
@@ -85,19 +87,22 @@ public class RiskDaoImpl implements RiskDao {
         Session session = sessionFactory.getCurrentSession();
         Query query;
         List list;
+        String sqlPrefix = "SELECT r.id, r.pid, r.content, r.possibility,";
 
         if (flag == 0) {
-            query = session.createSQLQuery("SELECT r.id, r.pid, r.content, r.possibility," +
+            query = session.createSQLQuery(sqlPrefix +
                     "r.impact, r.committer, r.createTime, r.updateTime, " +
                     "u.name, u.username FROM risk r LEFT JOIN user u " +
                     "ON r.committer=u.id WHERE r.pid=?");
             query.setInteger(0, pid);
             query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
             list = query.list();
-            if (list == null) list = new ArrayList<>();
+            if (list == null) {
+                list = new ArrayList<>();
+            }
             return list;
         } else if (flag == 1) {
-            query = session.createSQLQuery("SELECT r.id, r.pid, r.content, r.possibility," +
+            query = session.createSQLQuery(sqlPrefix +
                     "r.impact, r.committer, r.createTime, r.updateTime, " +
                     "u.name, u.username FROM risk r LEFT JOIN user u " +
                     "ON r.committer=u.id WHERE r.pid=? AND r.committer=?");
@@ -105,10 +110,12 @@ public class RiskDaoImpl implements RiskDao {
             query.setInteger(1, uid);
             query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
             list = query.list();
-            if (list == null) list = new ArrayList<>();
+            if (list == null) {
+                list = new ArrayList<>();
+            }
             return list;
         } else {
-            query = session.createSQLQuery("SELECT r.id, r.pid, r.content, r.possibility," +
+            query = session.createSQLQuery(sqlPrefix +
                     "r.impact, r.committer, r.createTime, r.updateTime, " +
                     "u.name, u.username FROM risk_follower rf " +
                     "LEFT JOIN risk r ON rf.rid=r.id LEFT JOIN user u " +
@@ -117,7 +124,9 @@ public class RiskDaoImpl implements RiskDao {
             query.setInteger(1, uid);
             query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
             list = query.list();
-            if (list == null) list = new ArrayList<>();
+            if (list == null) {
+                list = new ArrayList<>();
+            }
         }
         return list;
     }

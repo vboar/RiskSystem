@@ -24,7 +24,9 @@ public class AuthDaoimpl implements AuthDao {
             return false;
         }
         Project project = (Project) query.list().get(0);
-        if (project.getCreator() == uid) return true;
+        if (project.getCreator() == uid) {
+            return true;
+        }
         return false;
     }
 
@@ -49,7 +51,9 @@ public class AuthDaoimpl implements AuthDao {
             return false;
         }
         Risk risk = (Risk) query.list().get(0);
-        if (risk.getCommitter() == uid) return true;
+        if (risk.getCommitter() == uid) {
+            return true;
+        }
         return false;
     }
 
