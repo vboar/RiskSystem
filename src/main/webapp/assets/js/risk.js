@@ -17,7 +17,10 @@ $(document).ready(function () {
                 type: 'danger'
             },
         },
-        typeList: [{val: 1, text: '低'}, {val: 2, text: '中'}, {val: 3, text: '高'}]
+        typeList: [{val: 1, text: '低'}, {val: 2, text: '中'}, {val: 3, text: '高'}],
+        stateList: [],
+        curState: 0,
+        curMode: 'add'
     };
 
     $('#js-modal-risk').modal({
@@ -197,36 +200,82 @@ $(document).ready(function () {
     });
 
     $('#js-btn-add').on('click', function () {
+        cache.curMode = 'add';
         $('#js-modal-risk-state [name="name"]').val('');
         $('#js-modal-risk-state [name="content"]').val('');
         $('#js-modal-risk-state').modal('show');
     });
 
     $('#js-btn-add-state-submit').on('click', function () {
-        var data = {
-            id: $('#js-rid').val(),
-            name: $('#js-modal-risk-state [name="name"]').val(),
-            content: $('#js-modal-risk-state [name="content"]').val()
-        };
-        $.ajax({
-            type: 'POST',
-            url: $('#prefixUrl').val() + '/api/riskState/add',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(ret) {
-                if (ret.code == 0) {
-                    toaster('创建成功', 'success');
-                    $('#js-modal-risk-state').modal('hide');
-                    loadRiskState();
-                } else {
-                    toaster(ret.msg || '系统繁忙', 'error');
+        if (cache.curMode == 'add') {
+            var data = {
+                id: $('#js-rid').val(),
+                name: $('#js-modal-risk-state [name="name"]').val(),
+                content: $('#js-modal-risk-state [name="content"]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: $('#prefixUrl').val() + '/api/riskState/add',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(ret) {
+                    if (ret.code == 0) {
+                        toaster('创建成功', 'success');
+                        $('#js-modal-risk-state').modal('hide');
+                        loadRiskState();
+                    } else {
+                        toaster(ret.msg || '系统繁忙', 'error');
+                    }
+                },
+                error: function() {
+                    toaster('系统繁忙', "error");
                 }
-            },
-            error: function() {
-                toaster('系统繁忙', "error");
-            }
-        });
+            });
+        } else {
+            var data = {
+                rid: $('#js-rid').val(),
+                id: cache.curState,
+                name: $('#js-modal-risk-state [name="name"]').val(),
+                content: $('#js-modal-risk-state [name="content"]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: $('#prefixUrl').val() + '/api/riskState/modify',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(ret) {
+                    if (ret.code == 0) {
+                        toaster('编辑成功', 'success');
+                        $('#js-modal-risk-state').modal('hide');
+                        loadRiskState();
+                    } else {
+                        toaster(ret.msg || '系统繁忙', 'error');
+                    }
+                },
+                error: function() {
+                    toaster('系统繁忙', "error");
+                }
+            });
+        }
     });
+
+    var stateTmpl = [
+        '<%for(var i = 0, one; one = data[i]; i++){%>',
+        '<div class="panel panel-primary panel-state">',
+            '<div class="panel-body">',
+                '<p class="info"><%=one.creatorName%>（<%=one.username%>）创建于 <%=formatDateTime(one.createTime/1000)%>，最后更新于 <%=formatDateTime(one.updateTime/1000)%></p>',
+                '<%if(canEdit){%>',
+                '<button class="btn btn-default btn-sm pull-right" data-index="<%=i%>">编辑</button>',
+                '<%}%>',
+                '<p class="title"><%=one.name%></p>',
+                '<p class="content"><%=one.content%></p>',
+            '</div>',
+        '</div>',
+        '<%if(i < data.length-1){%>',
+        '<div class="panel-arrow"><i class="fa fa-arrow-up"></i></div>',
+        '<%}%>',
+        '<%}%>'
+    ].join('');
 
     loadRiskState();
     function loadRiskState() {
@@ -235,8 +284,16 @@ $(document).ready(function () {
             url: $('#prefixUrl').val() + '/api/riskState/getRiskStatesByRid?id=' + $('#js-rid').val(),
             success: function(ret) {
                 if (ret.code == 0) {
+                    cache.stateList = [];
                     if (ret.data) {
-                        // TODO
+                        cache.stateList = ret.data.list;
+                        $('#js-panel-states').html(window.tmpl(stateTmpl, {
+                            data : ret.data.list,
+                            canEdit: ret.data.canEdit
+                        }));
+                        if (!ret.data.canEdit) {
+                            $('#js-btn-add').hide();
+                        }
                     }
                 } else {
                     toaster(ret.msg || '系统繁忙', 'error');
@@ -247,6 +304,16 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('#js-panel-states').delegate('.btn', 'click', function () {
+        var index = $(this).attr('data-index');
+        var item = cache.stateList[Number(index)];
+        $('#js-modal-risk-state [name="name"]').val(item.name);
+        $('#js-modal-risk-state [name="content"]').val(item.content);
+        cache.curState = item.id;
+        cache.curMode = 'modify';
+        $('#js-modal-risk-state').modal('show');
+    });
 
 
 });

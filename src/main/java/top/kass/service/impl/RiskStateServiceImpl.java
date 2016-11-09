@@ -3,8 +3,11 @@ package top.kass.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.kass.dao.AuthDao;
+import top.kass.dao.RiskDao;
 import top.kass.dao.RiskStateDao;
 import top.kass.dao.UserDao;
+import top.kass.model.Project;
+import top.kass.model.Risk;
 import top.kass.model.RiskState;
 import top.kass.service.RiskStateService;
 
@@ -18,6 +21,8 @@ import java.util.Map;
 @Transactional
 public class RiskStateServiceImpl implements RiskStateService {
 
+    @Autowired
+    private RiskDao riskDao;
     @Autowired
     private RiskStateDao riskStateDao;
     @Autowired
@@ -40,7 +45,7 @@ public class RiskStateServiceImpl implements RiskStateService {
             return map;
         }
 
-        int id = Integer.parseInt((String)reqMap.get("id"));
+        int id = (int)reqMap.get("id");
         RiskState riskState = riskStateDao.getById(id);
 
         if (uid != riskState.getCreator()) {
@@ -49,6 +54,7 @@ public class RiskStateServiceImpl implements RiskStateService {
             return map;
         }
 
+        riskState.setRid(Integer.parseInt((String)reqMap.get("rid")));
         riskState.setName(name);
         riskState.setContent(content);
         riskState.setUpdateTime(new Timestamp(System.currentTimeMillis()));
@@ -57,6 +63,7 @@ public class RiskStateServiceImpl implements RiskStateService {
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
         data.put("id", riskState.getId());
+        map.put("data", data);
         return map;
     }
 
@@ -93,6 +100,7 @@ public class RiskStateServiceImpl implements RiskStateService {
         map.put("code", 0);
         Map<String, Object> data = new HashMap<>();
         data.put("id", riskState.getId());
+        map.put("data", data);
         return map;
     }
 
@@ -106,7 +114,8 @@ public class RiskStateServiceImpl implements RiskStateService {
     public Map<String, Object> getRiskStatesByRid(int rid, int uid) {
         Map<String, Object> map = new HashMap<>();
 
-        if (!authDao.isRiskCommitter(rid, uid) && !authDao.isRiskFollower(rid, uid)) {
+        Risk risk = riskDao.getById(rid);
+        if (!authDao.isProjectUser(risk.getPid(), uid)) {
             map.put("code", 401);
             map.put("msg", "你没有权限");
             return map;
@@ -114,7 +123,14 @@ public class RiskStateServiceImpl implements RiskStateService {
 
         List<Map> list = riskStateDao.getByRid(rid);
         map.put("code", 0);
-        map.put("data", list);
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", list);
+        if (!authDao.isRiskCommitter(rid, uid) && !authDao.isRiskFollower(rid, uid)) {
+            data.put("canEdit", 0);
+        } else {
+            data.put("canEdit", 1);
+        }
+        map.put("data", data);
         return map;
     }
 

@@ -63,7 +63,7 @@
                 <div class="panel-heading">风险跟踪</div>
                 <div class="panel-body project-panel-body">
                     <button class="btn btn-primary btn-sm" id="js-btn-add" hidden>创建跟踪</button>
-
+                    <div class="panel-states" id="js-panel-states"></div>
                 </div>
             </div>
         </div>
@@ -93,6 +93,32 @@
     }
     .intro-panel .item .content {
         font-size: 14px;
+    }
+    .panel-states {
+        margin-top: 20px;
+    }
+    .panel-state {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .panel-state .info {
+        font-size: 13px;
+        color: #9c9c9c;
+        display: inline-block;
+    }
+    .panel-state .title {
+        font-size: 16px;
+        color: #337ab7;
+        font-weight: bold;
+        margin-top: 6px;
+    }
+    .panel-state .content {
+
+    }
+    .panel-arrow {
+        font-size: 20px;
+        text-align: center;
+        color: #7d7d7d;
     }
 </style>
 
