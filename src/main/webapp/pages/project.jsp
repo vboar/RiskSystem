@@ -115,6 +115,7 @@
         word-break: keep-all;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
 

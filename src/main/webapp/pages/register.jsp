@@ -52,6 +52,16 @@
 <script>
     $(document).ready(function () {
         $('#js-btn-submit').on('click', function () {
+            register();
+        });
+
+        $(document).keydown(function (e) {
+            if (e.keyCode == 13) {
+                register();
+            }
+        });
+
+        function register() {
             var data = {
                 username: $('#inputUsername').val(),
                 name: $('#inputName').val(),
@@ -77,7 +87,7 @@
                     toaster('系统繁忙', "error");
                 }
             });
-        });
+        }
     });
 </script>
 

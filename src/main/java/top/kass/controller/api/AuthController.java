@@ -20,8 +20,6 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    private static final String USERNAME = "username";
-
     @RequestMapping(value="/login", method=RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> login(@RequestBody Map reqMap, HttpSession session) {
@@ -30,7 +28,7 @@ public class AuthController {
         if ((int)respMap.get("code") == 0) {
             session.setAttribute("id", data.get("id"));
             session.setAttribute("name", data.get("name"));
-            session.setAttribute(USERNAME, data.get(USERNAME));
+            session.setAttribute("username", data.get("username"));
             session.setAttribute("role", data.get("role"));
         }
         return respMap;
@@ -43,7 +41,7 @@ public class AuthController {
         Map<String, Object> data = (Map)respMap.get("data");
         if ((int)respMap.get("code") == 0) {
             session.setAttribute("id", data.get("id"));
-            session.setAttribute(USERNAME, data.get(USERNAME));
+            session.setAttribute("username", data.get("username"));
             session.setAttribute("name", data.get("name"));
             session.setAttribute("role", data.get("role"));
         }
