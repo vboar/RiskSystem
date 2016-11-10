@@ -15,8 +15,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         String url = request.getRequestURI();
         String prefix = request.getContextPath();
 
-        String[] IGNORE_URI = {prefix + "/login", prefix + "/register"};
-        String[] UNLOGIN_URI = {prefix + "/login", prefix + "/register"};
+        String[] ignoreUri = {prefix + "/login", prefix + "/register"};
+        String[] unloginUri = {prefix + "/login", prefix + "/register"};
 
         HttpSession session = request.getSession();
 
@@ -34,7 +34,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (session.getAttribute("id") != null) {
-            for (String s : UNLOGIN_URI) {
+            for (String s : unloginUri) {
                 if (url.equals(s)) {
                     response.sendRedirect(prefix + "/");
                     return false;
@@ -43,7 +43,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         } else {
             boolean flag = false;
-            for (String s : IGNORE_URI) {
+            for (String s : ignoreUri) {
                 if (url.equals(s)) {
                     flag = true;
                 }
