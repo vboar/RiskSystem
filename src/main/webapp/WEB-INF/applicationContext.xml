@@ -29,6 +29,14 @@
         <property name="maxIdle" value="${jdbc.maxIdle}" />
         <property name="minIdle" value="${jdbc.minIdle}" />
         <property name="maxWait" value="${jdbc.maxWait}" />
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="true" />
+        <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+        <property name="numTestsPerEvictionRun" value="50" />
+        <property name="minEvictableIdleTimeMillis" value="120000" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="6000000" />
     </bean>
 
     <bean id="sessionFactory"
