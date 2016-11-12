@@ -8,7 +8,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="<%=request.getContextPath()%>/">项目</a></li>
-                <li><a href="<%=request.getContextPath()%>/">权限说明</a></li>
+                <li><a href="<%=request.getContextPath()%>/tips">权限说明</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>

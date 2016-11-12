@@ -143,9 +143,6 @@ public class RiskServiceImpl implements RiskService {
         }
 
         List<Map> risks = riskDao.getByPid(pid, flag, uid);
-        for (Map m: risks) {
-
-        }
         map.put("code", 0);
         map.put("data", risks);
         return map;

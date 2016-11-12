@@ -45,6 +45,16 @@
 <script>
 $(document).ready(function () {
     $('#js-btn-submit').on('click', function () {
+        login();
+    });
+
+    $(document).keydown(function (e) {
+        if (e.keyCode == 13) {
+            login();
+        }
+    });
+
+    function login() {
         var data = {
             username: $('#inputUsername').val(),
             password: $('#inputPassword').val()
@@ -68,7 +78,7 @@ $(document).ready(function () {
                 toaster('系统繁忙', "error");
             }
         });
-    });
+    }
 });
 </script>
 

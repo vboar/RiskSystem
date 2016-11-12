@@ -6,7 +6,6 @@ import top.kass.dao.AuthDao;
 import top.kass.dao.RiskDao;
 import top.kass.dao.RiskStateDao;
 import top.kass.dao.UserDao;
-import top.kass.model.Project;
 import top.kass.model.Risk;
 import top.kass.model.RiskState;
 import top.kass.service.RiskStateService;
@@ -33,8 +32,6 @@ public class RiskStateServiceImpl implements RiskStateService {
     @Override
     public Map<String, Object> modify(Map reqMap, int uid) {
         Map<String, Object> map = new HashMap<>();
-
-        System.out.println(reqMap);
 
         String name = (String)reqMap.get("name");
         String content = (String)reqMap.get("content");
@@ -106,8 +103,7 @@ public class RiskStateServiceImpl implements RiskStateService {
 
     @Override
     public Map<String, Object> delete(int id, int uid) {
-        // TODO
-        return null;
+        return new HashMap<>();
     }
 
     @Override
@@ -136,8 +132,7 @@ public class RiskStateServiceImpl implements RiskStateService {
 
     @Override
     public Map<String, Object> getById(int id, int uid) {
-        // TODO
-        return null;
+        return new HashMap<>();
     }
 
 }
